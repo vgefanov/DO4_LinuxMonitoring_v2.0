@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function path_generator {
-  local number_of_folders=`find ~ -perm -u+w -type d | wc -l`
+  local number_of_folders=`sudo find / -perm -u+w -type d | grep -v  bin | grep -v sbin | wc -l`
   local number=$((1 + $RANDOM % $number_of_folders))
   local dir_to_embed=`find ~ -perm -u+w -type d | head -$number | tail +$number`
   echo $dir_to_embed
@@ -32,11 +32,11 @@ function add_sign {
 }
 
 free_space=$(df / |  head -2 | tail +2 | awk '{printf("%d", $4)}')
-touch logs_file.txt
-echo -n "" > logs_file.txt
-echo "Script start $start_time" | tee -a ~/LM02/02/logs_file.txt
+touch ~/LM02/02/logs_file.txt
+echo -n "" > ~/LM02/02/logs_file.txt
 while [[ $free_space -ge $((1000000 + $(($file_size * 1000)))) ]]
 do
+  echo "Script start $start_time" | tee -a ~/LM02/02/logs_file.txt
   path_to_embed=$(path_generator)
   count_dir=$((1 + $RANDOM % 100))
   count_files=$((1 + $RANDOM % 100))

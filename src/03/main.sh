@@ -19,8 +19,8 @@ if [[ $1 = [^1-3] ]]; then
     do
       echo $i >> ~/LM02/03/deleted_files.txt
     done
-    ./deleted.sh
-    rm deleted_files.txt
+    bash ~/LM02/03/deleted.sh
+    rm ~/LM02/03/deleted_files.txt 2>/dev/null
   fi
 
   elif [ $1 -eq 2 ] && ([ $# -eq 1 ] || [ $# -eq 5 ]); then
@@ -60,11 +60,30 @@ if [[ $1 = [^1-3] ]]; then
   do
     echo $(echo "$time_period_files" | grep -f ~/LM02/03/tmp_logs.txt | head -$j | tail +$j) >> ~/LM02/03/deleted_files.txt
   done
-  ./deleted.sh
-  rm deleted_files.txt tmp_logs.txt 2>/dev/null
-  
+  bash ~/LM02/03/deleted.sh
+  rm ~/LM02/03/deleted_files.txt ~/LM02/03/tmp_logs.txt 2>/dev/null
+
   elif [ $1 -eq 3 ] && [ $# -eq 1 ]; then
-    echo "zxc3"
+    echo "Enter the name mask in the format 'abcd_ddmmyy'"
+    read name_mask
+    mask=$(echo $name_mask | awk -F_ '{print $1}')
+    date=$(echo $name_mask | awk -F_ '{print $2}')
+    length_name=$(expr length $mask)
+    name="([^\s]*\/)"
+    for((i=1; i<=$length_name; i++))
+    do
+      arr[$i]=`expr substr $mask $i 1 2>/dev/null`
+      name+="${arr[$i]}+"
+    done
+    name+="_$date/"
+    i=1
+    count=$(sudo find / -type d 2>/dev/null | egrep "*$name*" | wc -l)
+    for((i=1; i<=$count; i++))
+    do
+      echo $(sudo find / -type d 2>/dev/null | egrep "*$name*" | head -$i | tail +$i) >> ~/LM02/03/deleted_files.txt
+    done
+    bash ~/LM02/03/deleted.sh
+    rm ~/LM02/03/deleted_files.txt 2>/dev/null
   else
-    echo "некорректное количество параметров или некорректный параметр"
+    echo "incorrect number of parameters or invalid parameter"
 fi
