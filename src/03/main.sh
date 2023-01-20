@@ -72,7 +72,7 @@ if [[ $1 = [^1-3] ]]; then
     name="([^\s]*\/)"
     for((i=1; i<=$length_name; i++))
     do
-      arr[$i]=`expr substr $mask $i 1 2>/dev/null`
+      arr[$i]=$(expr substr $mask $i 1) 2>/dev/null
       name+="${arr[$i]}+"
     done
     name+="_$date/"

@@ -7,6 +7,5 @@ function delete {
     test -d $i 2>/dev/null && sudo rm -rf $i 2>/dev/null
     test -f $i 2>/dev/null && sudo rm -rf $i 2>/dev/null
   done
-  sudo find / -empty -type d -delete 2>/dev/null
 }
 delete

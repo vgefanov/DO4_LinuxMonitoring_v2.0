@@ -4,7 +4,7 @@ source ~/LM02/04/function.sh
 if [ $# -ne 0 ]; then
   echo "Error. Parameters not needed"
   else
-  start_time=`date +%F" "%H:%M:%S`
+  start_time=$(date +%F" "%H:%M:%S)
   echo "Script start $start_time"
   for i in {1..5}
   do
@@ -23,7 +23,7 @@ if [ $# -ne 0 ]; then
     cat ~/LM02/04/tmp$i.log | sort -k4 >> ~/LM02/04/$i.log
     rm ~/LM02/04/tmp$i.log
   done
-  end_time=`date +%F" "%H:%M:%S`
+  end_time=$(date +%F" "%H:%M:%S)
   echo "Script finish $end_time"
 fi
 

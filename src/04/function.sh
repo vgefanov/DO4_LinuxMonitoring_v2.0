@@ -40,10 +40,10 @@ function get_extension {
 
 function get_url {
   local number=$((2 + $RANDOM % 4))
-  local URL="/"`head -c 50 /dev/random | base64 | tr -d [:upper:][:punct:] | tail -c $number`
+  local URL="/"$(head -c 50 /dev/random | base64 | tr -d [:upper:][:punct:] | tail -c $number)
   for((i=0; i<$number; i++))
   do
-    local URL+="/"`head -c 100 /dev/urandom | base64 | tr -d [:upper:][:punct:] | tail -c $number`
+    local URL+="/"$(head -c 100 /dev/urandom | base64 | tr -d [:upper:][:punct:] | tail -c $number)
   done
   URL+="$(get_extension)"
   echo $URL
